@@ -1,21 +1,18 @@
 #include "stm32f10x_it.h"
+#include "swt.h"
 
 extern int IN_INT;
+
 void TIM2_IRQHandler(void) {
-	unsigned int i = 1<<8;
-	
   /* Clear TIM2 update interrupt */
   TIM_ClearFlag(TIM2, TIM_FLAG_CC2);
-
-	// Toggle LED
-  if(GPIOB->ODR & i)  GPIOB->ODR &= ~i;
-  else GPIOB->ODR |= i;
+//  ticks++;
+	swtUpdate();
 }
 
-
-void EXTI9_5_IRQHandler(void) {  // EXTI15_10_IRQn
-	unsigned int in_pin=1<<8, out_pin = 1<<2;	
-	EXTI_ClearFlag(EXTI_Line8);
+void EXTI0_IRQHandler(void) {  // EXTI0_IRQn
+	unsigned int in_pin=1<<0, out_pin = 1<<11;	
+	EXTI_ClearFlag(EXTI_Line0);
   IN_INT=1;
 
 	if(GPIOB->IDR & in_pin) {

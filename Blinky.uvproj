@@ -347,7 +347,7 @@
             <uThumb>0</uThumb>
             <uSurpInc>0</uSurpInc>
             <VariousControls>
-              <MiscControls></MiscControls>
+              <MiscControls>--reduce_paths</MiscControls>
               <Define>STM32F10X_MD USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
               <IncludePath>..\STM32F10x_StdPeriph_Driver\inc, .</IncludePath>
@@ -450,6 +450,26 @@
               <FileName>misc.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\STM32F10x_StdPeriph_Driver\src\misc.c</FilePath>
+            </File>
+            <File>
+              <FileName>swt.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\swt.c</FilePath>
+            </File>
+            <File>
+              <FileName>swt.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\swt.h</FilePath>
+            </File>
+            <File>
+              <FileName>Controller.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Controller.c</FilePath>
+            </File>
+            <File>
+              <FileName>controller.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\controller.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -909,6 +929,26 @@
               <FileName>misc.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\STM32F10x_StdPeriph_Driver\src\misc.c</FilePath>
+            </File>
+            <File>
+              <FileName>swt.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\swt.c</FilePath>
+            </File>
+            <File>
+              <FileName>swt.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\swt.h</FilePath>
+            </File>
+            <File>
+              <FileName>Controller.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Controller.c</FilePath>
+            </File>
+            <File>
+              <FileName>controller.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\controller.h</FilePath>
             </File>
           </Files>
         </Group>
