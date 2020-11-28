@@ -461,6 +461,16 @@
               <FileType>5</FileType>
               <FilePath>.\swt.h</FilePath>
             </File>
+            <File>
+              <FileName>Controller.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Controller.c</FilePath>
+            </File>
+            <File>
+              <FileName>controller.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\controller.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -929,6 +939,16 @@
               <FileName>swt.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\swt.h</FilePath>
+            </File>
+            <File>
+              <FileName>Controller.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Controller.c</FilePath>
+            </File>
+            <File>
+              <FileName>controller.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\controller.h</FilePath>
             </File>
           </Files>
         </Group>

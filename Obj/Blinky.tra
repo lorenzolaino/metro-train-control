@@ -22,7 +22,7 @@
 ### ADS-LD Output File: '.\Obj\Blinky.axf'
 ### ADS-LD Command File: '.\Obj\Blinky.lnp'
 ### Checking for dirty Components...
-### Creating CmdFile '.\Obj\Blinky.lnp', Handle=0x00006014
+### Creating CmdFile '.\Obj\Blinky.lnp', Handle=0x00000698
 ### Writing '.lnp' file
 ### ADS-LD Command file '.\Obj\Blinky.lnp' is ready.
 ### ADS-LD: About to start ADS-LD Thread.

@@ -1,5 +1,6 @@
 #include <stm32f10x.h>
 #include "controller.h"
+#include "swt.h"
 
 // Output on GPIO/C
 #define max_Power 2
@@ -19,6 +20,10 @@
 #define med_Braking 3
 #define str_Braking 2
 
+int current_State = no_Acceleration_No_Braking;
+int stop_Signal_Active = 0; 
+int emergency_Breaking_Active = 0; 
+
 void initial_Configuration(void) {
 	RCC->APB2ENR |= RCC_APB2ENR_IOPCEN;
   GPIOC->CRH    = 0x00003333;               /*PC.8-9-10-11 define as Output - Braking */
@@ -26,6 +31,14 @@ void initial_Configuration(void) {
 }	
 
 void check_Input(void) {
+	if (stop_Signal_Active) {
+		return; 
+	}
+	
+	if (emergency_Breaking_Active) {
+		return; 
+	}
+	
 	switch_Led(1<<max_Acceleration, 1<<max_Power);
 	switch_Led(1<<med_Acceleration, 1<<med_Power);
 	switch_Led(1<<min_Acceleration, 1<<min_Power);
@@ -41,4 +54,20 @@ void switch_Led(int in_pin, int out_pin) {
 	} else {
 		GPIOC->ODR &= ~out_pin;	// switch LED OFF
 	}
+}
+
+void set_Stop_Signal(int is_Active) {
+	stop_Signal_Active = is_Active; 
+}
+
+void set_Emergency_Breaking_Signal(int is_Active) {
+	emergency_Breaking_Active = is_Active; 
+}
+
+void set_Current_State(int state) {
+	current_State = state; 
+}
+
+void switch_Off_Current_State(void) {
+	GPIOC->ODR &= ~1<<current_State; //switch current state off
 }
