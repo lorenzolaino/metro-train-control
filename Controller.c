@@ -1,4 +1,5 @@
 #include <stm32f10x.h>
+#include <stdbool.h> 
 #include "controller.h"
 #include "swt.h"
 
@@ -20,9 +21,10 @@
 #define med_Braking 3
 #define str_Braking 2
 
-int current_State = no_Acceleration_No_Braking;
-int stop_Signal_Active = 0; 
-int emergency_Breaking_Active = 0; 
+bool stop_Signal_Active = 0; 
+bool emergency_Breaking_Active = 0; 
+
+int current_State = 1<<no_Acceleration_No_Braking;
 
 void initial_Configuration(void) {
 	RCC->APB2ENR |= RCC_APB2ENR_IOPCEN;
@@ -31,43 +33,74 @@ void initial_Configuration(void) {
 }	
 
 void check_Input(void) {
-	if (stop_Signal_Active) {
+	
+	if(emergency_Breaking_Active) {
+		return;
+	}
+	
+	if(stop_Signal_Active) {
 		return; 
 	}
-	
-	if (emergency_Breaking_Active) {
-		return; 
+	 
+	switch(GPIOB->IDR) {
+		case 1<<str_Braking:
+			turn_Off_Led(1<<current_State);
+			turn_On_Led(1<<str_Braking_Force);
+			set_Current_State(str_Braking_Force);
+			break;
+		case 1<<med_Braking:
+			turn_Off_Led(1<<current_State);
+			turn_On_Led(1<<med_Braking_Force);
+			set_Current_State(med_Braking_Force);
+			break;
+		case 1<<min_Braking:
+			turn_Off_Led(1<<current_State);
+			turn_On_Led(1<<min_Braking_Force);
+			set_Current_State(min_Braking_Force);
+			break;
+		case 1<<no_Acceleration_No_Braking:
+			turn_Off_Led(1<<current_State);
+			set_Current_State(no_Acceleration_No_Braking);
+			break;
+		case 1<<min_Acceleration:
+			turn_Off_Led(1<<current_State);
+			turn_On_Led(1<<min_Power);
+			set_Current_State(min_Power);
+			break;
+		case 1<<med_Acceleration:
+			turn_Off_Led(1<<current_State);
+			turn_On_Led(1<<med_Power);
+			set_Current_State(med_Power);
+			break;
+		case 1<<max_Acceleration:
+			turn_Off_Led(1<<current_State);
+			turn_On_Led(1<<max_Power);
+			set_Current_State(max_Power);
+			break;
+		
 	}
-	
-	switch_Led(1<<max_Acceleration, 1<<max_Power);
-	switch_Led(1<<med_Acceleration, 1<<med_Power);
-	switch_Led(1<<min_Acceleration, 1<<min_Power);
-	
-	switch_Led(1<<min_Braking, 1<<min_Braking_Force);
-	switch_Led(1<<med_Braking, 1<<med_Braking_Force);
-	switch_Led(1<<str_Braking, 1<<str_Braking_Force);
 }
 
-void switch_Led(int in_pin, int out_pin) {
-	if(GPIOB->IDR & in_pin) {
-		GPIOC->ODR |= out_pin;	// switch LED ON
-	} else {
-		GPIOC->ODR &= ~out_pin;	// switch LED OFF
-	}
+void turn_On_Led(int out_pin) {
+	GPIOC->ODR |= out_pin;
 }
 
-void set_Stop_Signal(int is_Active) {
+void turn_Off_Led(int out_pin) {
+	GPIOC->ODR &= ~out_pin;
+}
+
+void set_Stop_Signal(bool is_Active) {
 	stop_Signal_Active = is_Active; 
 }
 
-void set_Emergency_Breaking_Signal(int is_Active) {
+void set_Emergency_Breaking_Signal(bool is_Active) {
 	emergency_Breaking_Active = is_Active; 
 }
 
 void set_Current_State(int state) {
-	current_State = state; 
+	current_State = state;
 }
 
-void switch_Off_Current_State(void) {
-	GPIOC->ODR &= ~1<<current_State; //switch current state off
+int get_Current_State(void) {
+	return current_State;
 }
