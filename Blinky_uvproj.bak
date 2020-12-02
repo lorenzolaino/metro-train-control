@@ -200,7 +200,7 @@
             <GenPPlst>0</GenPPlst>
             <AdsCpuType>"Cortex-M3"</AdsCpuType>
             <RvctDeviceName></RvctDeviceName>
-            <mOS>0</mOS>
+            <mOS>1</mOS>
             <uocRom>0</uocRom>
             <uocRam>0</uocRam>
             <hadIROM>1</hadIROM>
@@ -350,7 +350,7 @@
               <MiscControls>--reduce_paths</MiscControls>
               <Define>STM32F10X_MD USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>..\STM32F10x_StdPeriph_Driver\inc, .</IncludePath>
+              <IncludePath>..\STM32F10x_StdPeriph_Driver\inc;.;D:\Programs\Keils\ARM\INC</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -416,6 +416,11 @@
               <FileType>1</FileType>
               <FilePath>.\stm32f10x_it.c</FilePath>
             </File>
+            <File>
+              <FileName>stm32f10x_it.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\stm32f10x_it.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -470,6 +475,11 @@
               <FileName>controller.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\controller.h</FilePath>
+            </File>
+            <File>
+              <FileName>RTX_Config.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\RTX_Config.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -895,6 +905,11 @@
               <FileType>1</FileType>
               <FilePath>.\stm32f10x_it.c</FilePath>
             </File>
+            <File>
+              <FileName>stm32f10x_it.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\stm32f10x_it.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -949,6 +964,11 @@
               <FileName>controller.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\controller.h</FilePath>
+            </File>
+            <File>
+              <FileName>RTX_Config.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\RTX_Config.c</FilePath>
             </File>
           </Files>
         </Group>

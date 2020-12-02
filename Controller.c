@@ -2,6 +2,7 @@
 #include <stdbool.h> 
 #include "controller.h"
 #include "swt.h"
+#include "stm32f10x_it.h"
 
 // Output on GPIO/C
 #define max_Power 2
@@ -21,10 +22,8 @@
 #define med_Braking 3
 #define str_Braking 2
 
-bool stop_Signal_Active = 0; 
-bool emergency_Breaking_Active = 0; 
-
 int current_State = 1<<no_Acceleration_No_Braking;
+int is_Max_Acceleration_Timer_Expired = 0; 
 
 void initial_Configuration(void) {
 	RCC->APB2ENR |= RCC_APB2ENR_IOPCEN;
@@ -33,14 +32,6 @@ void initial_Configuration(void) {
 }	
 
 void check_Input(void) {
-	
-	if(emergency_Breaking_Active) {
-		return;
-	}
-	
-	if(stop_Signal_Active) {
-		return; 
-	}
 	 
 	switch(GPIOB->IDR) {
 		case 1<<str_Braking:
@@ -77,7 +68,6 @@ void check_Input(void) {
 			turn_On_Led(1<<max_Power);
 			set_Current_State(max_Power);
 			break;
-		
 	}
 }
 
@@ -87,14 +77,6 @@ void turn_On_Led(int out_pin) {
 
 void turn_Off_Led(int out_pin) {
 	GPIOC->ODR &= ~out_pin;
-}
-
-void set_Stop_Signal(bool is_Active) {
-	stop_Signal_Active = is_Active; 
-}
-
-void set_Emergency_Breaking_Signal(bool is_Active) {
-	emergency_Breaking_Active = is_Active; 
 }
 
 void set_Current_State(int state) {

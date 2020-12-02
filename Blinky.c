@@ -10,16 +10,16 @@
 #include "stm32f10x_exti.h"
 #include "misc.h"
 #include "swt.h"
-#include "controller.h"
+#include "controller.h" 
+#include "RTX_Tasks.h"
 
 #define ms_Period 9 // 10 ms of period
 #define swt_Id 0 // id of software timer 
 
-volatile unsigned int SWT_STATE = 0;
+//volatile unsigned int SWT_STATE = 0;
 int PROVA = 0; 
 int WAIT;
 int IN_INT=0;
-
 
 /*----------------------------------------------------------------------------
   wait function
@@ -119,9 +119,9 @@ void all_Init(void) {
   TIM_TimeBaseStructInit (& TIM_TimeBaseStructure);
   // PWM frequency = 1 KHz with 72MHz system clock
   // 72M/720 = 100000 Hz
-  // 100000/100 = 1 KHz
+  // 100000/1000 = 100 Hz
   TIM_TimeBaseStructure.TIM_Prescaler = SystemCoreClock /100000 - 1; // 719
-  TIM_TimeBaseStructure.TIM_Period = 100 - 1; // 99
+  TIM_TimeBaseStructure.TIM_Period = 1000 - 1; // 99
   TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
   // Initialize TIM2 as specified in the TIM_TimeBaseInitStruct.
   TIM_TimeBaseInit(TIM2 , &TIM_TimeBaseStructure);
@@ -145,8 +145,8 @@ void all_Init(void) {
 
 void configure_Swt(void) {
 	all_Init();
-	swtInit();
-	swtSetPeriod(swt_Id, ms_Period);
+	//swtInit();
+	//swtSetPeriod(swt_Id, ms_Period);
 }
 
 
@@ -165,15 +165,9 @@ int main(void) {
 	configure_Swt(); 
 	
 	IN_INT=0;
-	while(1){
-			//wait ();
-			//IN_INT=0;
-		
-			if (swtExpired(swt_Id)) {
-				swtResetFlag(swt_Id);
-				SWT_STATE = 1-SWT_STATE;
-				
-				check_Input();	
-			}
-	}
+	
+	initialize_Task();
+	
 }
+
+
