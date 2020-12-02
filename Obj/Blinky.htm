@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\Obj\Blinky.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\Obj\Blinky.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5.02 [Build 28]: Last Updated: Wed Dec 02 10:54:38 2020
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5.02 [Build 28]: Last Updated: Wed Dec 02 18:08:48 2020
 <BR><P>
 <H3>Maximum Stack Usage =         84 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -839,12 +839,13 @@ Global Symbols
 <LI><a href="#[73]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_Input
 </UL>
 
-<P><STRONG><a name="[73]"></a>check_Input</STRONG> (Thumb, 242 bytes, Stack size 4 bytes, controller.o(.text))
-<BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = check_Input
+<P><STRONG><a name="[73]"></a>check_Input</STRONG> (Thumb, 356 bytes, Stack size 8 bytes, controller.o(.text))
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = check_Input &rArr; isr_evt_set &rArr; rt_psq_enq
 </UL>
 <BR>[Calls]<UL><LI><a href="#[74]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;turn_Off_Led
 <LI><a href="#[75]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;turn_On_Led
 <LI><a href="#[76]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_Current_State
+<LI><a href="#[49]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;isr_evt_set
 </UL>
 <BR>[Called By]<UL><LI><a href="#[7b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BackgroundTask
 </UL>
@@ -881,7 +882,7 @@ Global Symbols
 <BR>[Address Reference Count : 1]<UL><LI> rtx_tasks.o(.text)
 </UL>
 <P><STRONG><a name="[7b]"></a>BackgroundTask</STRONG> (Thumb, 54 bytes, Stack size 0 bytes, rtx_tasks.o(.text))
-<BR><BR>[Stack]<UL><LI>Max Depth = 4<LI>Call Chain = BackgroundTask &rArr; check_Input
+<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = BackgroundTask &rArr; check_Input &rArr; isr_evt_set &rArr; rt_psq_enq
 </UL>
 <BR>[Calls]<UL><LI><a href="#[73]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_Input
 </UL>
@@ -937,7 +938,8 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_psq_enq
 <LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;rt_psh_req
 </UL>
-<BR>[Called By]<UL><LI><a href="#[11]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EXTI1_IRQHandler
+<BR>[Called By]<UL><LI><a href="#[73]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;check_Input
+<LI><a href="#[11]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EXTI1_IRQHandler
 <LI><a href="#[10]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EXTI0_IRQHandler
 <LI><a href="#[26]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;TIM2_IRQHandler
 </UL>

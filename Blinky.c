@@ -121,7 +121,7 @@ void all_Init(void) {
   // 72M/720 = 100000 Hz
   // 100000/1000 = 100 Hz
   TIM_TimeBaseStructure.TIM_Prescaler = SystemCoreClock /100000 - 1; // 719
-  TIM_TimeBaseStructure.TIM_Period = 1000 - 1; // 99
+  TIM_TimeBaseStructure.TIM_Period = 1000 - 1; // 999
   TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
   // Initialize TIM2 as specified in the TIM_TimeBaseInitStruct.
   TIM_TimeBaseInit(TIM2 , &TIM_TimeBaseStructure);
@@ -167,7 +167,7 @@ int main(void) {
 	IN_INT=0;
 	
 	initialize_Task();
-	
+
 }
 
 

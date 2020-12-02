@@ -3,6 +3,7 @@
 #include "controller.h"
 #include "swt.h"
 #include "stm32f10x_it.h"
+#include <RTL.h>
 
 // Output on GPIO/C
 #define max_Power 2
@@ -22,8 +23,13 @@
 #define med_Braking 3
 #define str_Braking 2
 
+// Correctness constant
+#define max_Acceleration_Timer = 400; // 4 seconds
+#define max_No_Input_Timer = 300;			// 3 seconds
+
 int current_State = 1<<no_Acceleration_No_Braking;
 int is_Max_Acceleration_Timer_Expired = 0; 
+extern OS_TID stop_Signal_Task_ID;
 
 void initial_Configuration(void) {
 	RCC->APB2ENR |= RCC_APB2ENR_IOPCEN;
@@ -31,43 +37,67 @@ void initial_Configuration(void) {
 	GPIOC->CRL    = 0x00000333;								/*PC.0-1-2 define as Output - Acceleration */
 }	
 
+unsigned int max_Acceleration_Time = 0;
+unsigned int max_No_Input_Time = 0;
+
 void check_Input(void) {
 	 
 	switch(GPIOB->IDR) {
 		case 1<<str_Braking:
+			max_Acceleration_Time = 0;
 			turn_Off_Led(1<<current_State);
 			turn_On_Led(1<<str_Braking_Force);
 			set_Current_State(str_Braking_Force);
 			break;
 		case 1<<med_Braking:
+			max_Acceleration_Time = 0; 
 			turn_Off_Led(1<<current_State);
 			turn_On_Led(1<<med_Braking_Force);
 			set_Current_State(med_Braking_Force);
 			break;
 		case 1<<min_Braking:
+			max_Acceleration_Time = 0;
 			turn_Off_Led(1<<current_State);
 			turn_On_Led(1<<min_Braking_Force);
 			set_Current_State(min_Braking_Force);
 			break;
 		case 1<<no_Acceleration_No_Braking:
+			max_Acceleration_Time = 0;
 			turn_Off_Led(1<<current_State);
 			set_Current_State(no_Acceleration_No_Braking);
 			break;
 		case 1<<min_Acceleration:
+			max_Acceleration_Time = 0;
 			turn_Off_Led(1<<current_State);
 			turn_On_Led(1<<min_Power);
 			set_Current_State(min_Power);
 			break;
 		case 1<<med_Acceleration:
+			max_Acceleration_Time = 0;
 			turn_Off_Led(1<<current_State);
 			turn_On_Led(1<<med_Power);
 			set_Current_State(med_Power);
 			break;
 		case 1<<max_Acceleration:
-			turn_Off_Led(1<<current_State);
-			turn_On_Led(1<<max_Power);
-			set_Current_State(max_Power);
+			
+			max_Acceleration_Time++;
+			if (max_Acceleration_Time >= max_Acceleration_Timer) {
+				turn_Off_Led(1<<max_Power);
+				turn_On_Led(1<<med_Power);
+				set_Current_State(med_Power);
+			} else {
+				turn_Off_Led(1<<current_State);
+				turn_On_Led(1<<max_Power);
+				set_Current_State(max_Power);
+			}
 			break;
+		case 0x00000000: 
+			max_No_Input_Time++;
+			if (max_No_Input_Time >= max_No_Input_Timer) {
+				//isr_evt_set(0x01, stop_Signal_Task_ID);
+				//TODO: 1 creare un nuovo task che viene svegliato e diventa stato finale
+				//TODO: 2 inserire un controllo su di un flag all'interno del task del segnale di stop
+			}
 	}
 }
 

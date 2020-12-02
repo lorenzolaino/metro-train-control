@@ -81,6 +81,7 @@ __task void StopSignalTask(void) {
 	}
 }
 
+
 void initialize_Task(void) {
 	os_sys_init(TaskInit);
 }
