@@ -24,12 +24,12 @@
 #define str_Braking 2
 
 // Correctness constant
-#define max_Acceleration_Timer = 400; // 4 seconds
-#define max_No_Input_Timer = 300;			// 3 seconds
+int max_Acceleration_Timer = 400; // 4 seconds
+int max_No_Input_Timer = 300;			// 3 seconds
 
 int current_State = 1<<no_Acceleration_No_Braking;
-int is_Max_Acceleration_Timer_Expired = 0; 
-extern OS_TID stop_Signal_Task_ID;
+
+extern OS_TID stop_Signal_Final_Task_ID;
 
 void initial_Configuration(void) {
 	RCC->APB2ENR |= RCC_APB2ENR_IOPCEN;
@@ -94,7 +94,7 @@ void check_Input(void) {
 		case 0x00000000: 
 			max_No_Input_Time++;
 			if (max_No_Input_Time >= max_No_Input_Timer) {
-				//isr_evt_set(0x01, stop_Signal_Task_ID);
+				os_evt_set(0x01, stop_Signal_Final_Task_ID);
 				//TODO: 1 creare un nuovo task che viene svegliato e diventa stato finale
 				//TODO: 2 inserire un controllo su di un flag all'interno del task del segnale di stop
 			}

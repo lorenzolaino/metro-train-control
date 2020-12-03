@@ -124,6 +124,7 @@
 extern volatile int BACKGROUND;
 extern volatile int EMERGENCY_BRAKE;
 extern volatile int STOP_SIGNAL;
+extern volatile int STOP_SIGNAL_FINAL;
 extern volatile int IDLE;
 
 __task void os_idle_demon (void) {
@@ -134,6 +135,7 @@ __task void os_idle_demon (void) {
      BACKGROUND = 0;
 		 EMERGENCY_BRAKE = 0;
 		 STOP_SIGNAL = 0;
+		 STOP_SIGNAL_FINAL = 0;
      IDLE = 1;
 
   /* HERE: include optional user code to be executed when no task runs.*/
