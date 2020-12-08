@@ -3,22 +3,22 @@
  * Purpose: Turn on/off LED depending on input, managed via interrupt
  *----------------------------------------------------------------------------*/
 
-#include <stm32f10x.h>                       /* STM32F103 definitions         */
+#include <stm32f10x.h>                       
 #include <stdio.h>
 #include "stm32f10x_it.h"
 #include "stm32f10x_tim.h"
 #include "stm32f10x_gpio.h"
 #include "stm32f10x_exti.h"
 #include "misc.h"
-#include "swt.h"
 #include "controller.h" 
 #include "RTX_Tasks.h"
 #include "Serial.h"
 
-#define ms_Period 9 // 10 ms of period
-#define swt_Id 0 // id of software timer 
-
+/*----------------------------------------------------------------------------
+  Configure Pin 0 (Emergency braking) with interrupt
+ *----------------------------------------------------------------------------*/
 void Configure_PB0_Emergency_Braking(void) {
+	
 	
     /* Set variables used */
     GPIO_InitTypeDef GPIO_InitStruct;
@@ -35,21 +35,25 @@ void Configure_PB0_Emergency_Braking(void) {
     
     GPIO_EXTILineConfig(GPIO_PortSourceGPIOB, GPIO_PinSource0);     
     
-    EXTI_InitStruct.EXTI_Line = EXTI_Line0;	// PB4 is connected to EXTI_Line4
+    EXTI_InitStruct.EXTI_Line = EXTI_Line0;	// PB0 is connected to EXTI_Line0
     EXTI_InitStruct.EXTI_LineCmd = ENABLE;	// Enable interrupt
     EXTI_InitStruct.EXTI_Mode = EXTI_Mode_Interrupt;	// Interrupt mode
     EXTI_InitStruct.EXTI_Trigger = EXTI_Trigger_Rising_Falling;	// Triggers on rising and falling edge
     EXTI_Init(&EXTI_InitStruct);		// Add to EXTI
  
     /* Add IRQ vector to NVIC */
-    NVIC_InitStruct.NVIC_IRQChannel = EXTI0_IRQn;  // PB4 is connected to EXTI_Line4, which has EXTI4_IRQn vector
+    NVIC_InitStruct.NVIC_IRQChannel = EXTI0_IRQn;  // PB0 is connected to EXTI_Line0, which has EXTI0_IRQn vector
     NVIC_InitStruct.NVIC_IRQChannelPreemptionPriority = 0x00;	// Set priority
     NVIC_InitStruct.NVIC_IRQChannelSubPriority = 0x01;		// Set sub priority
     NVIC_InitStruct.NVIC_IRQChannelCmd = ENABLE;		// Enable interrupt
     NVIC_Init(&NVIC_InitStruct);				// Add to NVIC
 }
 
+/*----------------------------------------------------------------------------
+  Configure Pin 1 (Stop signal) with interrupt
+ *----------------------------------------------------------------------------*/
 void Configure_PB1_Stop_Signal(void) {
+	
     /* Set variables used */
     GPIO_InitTypeDef GPIO_InitStruct;
     EXTI_InitTypeDef EXTI_InitStruct;
@@ -80,10 +84,13 @@ void Configure_PB1_Stop_Signal(void) {
 }
 
 /*----------------------------------------------------------------------------
-  Timer initialization
+  Configure Timer of 10ms
  *----------------------------------------------------------------------------*/
-
 void Configure_Timer(void) {
+	
+/*----------------------------------------------------------------------------
+  Configure USART1 Interrupt
+ *----------------------------------------------------------------------------*/
 	
   TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure;
   TIM_OCInitTypeDef TIM_OCInitStructure;
@@ -130,7 +137,8 @@ void Configure_Timer(void) {
   TIM_ClearFlag(TIM2, TIM_FLAG_CC2);
 }
 
-void USART_NVIC_config(void) {
+void USART1_NVIC_config(void) {
+	
 	NVIC_InitTypeDef NVIC_InitStructureUSART;
   /* Configure two bits for preemption priority */
   NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
@@ -140,58 +148,9 @@ void USART_NVIC_config(void) {
   NVIC_Init(&NVIC_InitStructureUSART);
 }
 
-void USART_config(void){
-	USART_InitTypeDef USART_InitStructure;
-	RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1, ENABLE); 
-	
-  /* Configure the NVIC Preemption Priority Bits */  
-  NVIC_PriorityGroupConfig(NVIC_PriorityGroup_0);
-  
-  /* Enable the USART1 Interrupt */
-  USART_InitStructure.USART_BaudRate = 9600;
-  USART_InitStructure.USART_WordLength = USART_WordLength_8b;
-  USART_InitStructure.USART_StopBits = USART_StopBits_1;
-  USART_InitStructure.USART_Parity = USART_Parity_No;
-  USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
-  USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
-
-  /* Configure USART1 */
-  USART_Init(USART1, &USART_InitStructure);
-  
-  /* Enable USART1 Receive and Transmit interrupts */
-  USART_ITConfig(USART1, USART_IT_RXNE, ENABLE);
-  // USART_ITConfig(USART1, USART_IT_TXE, ENABLE);
-  USART_Cmd(USART1, ENABLE);
-}
-
-void USART2_config(void){
-	USART_InitTypeDef USART_InitStructure;
-	RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2, ENABLE); 
-	
-  /* Configure the NVIC Preemption Priority Bits */  
-  NVIC_PriorityGroupConfig(NVIC_PriorityGroup_0);
-  
-  /* Enable the USART2 Interrupt */
-  USART_InitStructure.USART_BaudRate = 9600;
-  USART_InitStructure.USART_WordLength = USART_WordLength_8b;
-  USART_InitStructure.USART_StopBits = USART_StopBits_1;
-  USART_InitStructure.USART_Parity = USART_Parity_No;
-  USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
-  USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
-
-  /* Configure USART1 */
-  USART_Init(USART2, &USART_InitStructure);
-  
-  /* Enable USART1 Receive and Transmit interrupts */
-  USART_ITConfig(USART2, USART_IT_RXNE, ENABLE);
-  // USART_ITConfig(USART1, USART_IT_TXE, ENABLE);
-  USART_Cmd(USART2, ENABLE);
-}
-
 /*----------------------------------------------------------------------------
   Main Program
  *----------------------------------------------------------------------------*/
-
 int main(void) {
 	
 	RCC->APB2ENR |= RCC_APB2ENR_IOPCEN;
@@ -204,10 +163,9 @@ int main(void) {
 	Configure_PB1_Stop_Signal();
 	Configure_Timer(); 
 	
-	SER_Init();
-	USART_config();
-	USART_NVIC_config();
-	
+	SER_Init_USART1();
+	SER_Init_USART2();
+	USART1_NVIC_config();
 	
 	initialize_Task();
 	

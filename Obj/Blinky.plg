@@ -4,33 +4,10 @@
 <h1>µVision Build Log</h1>
 <h2>Project:</h2>
 D:\Projects\KeilProjects\metro-train-control\Blinky.uvproj
-Project File Date:  12/07/2020
+Project File Date:  12/08/2020
 
 <h2>Output:</h2>
 Build target 'STM32F103 Simulator'
-compiling stm32f10x_it.c...
-stm32f10x_it.c(41): error:  #167: argument of type "int" is incompatible with parameter of type "const char *restrict"
-compiling Blinky.c...
-Target not created
-Build target 'STM32F103 Simulator'
-compiling stm32f10x_it.c...
-stm32f10x_it.c(41): error:  #29: expected an expression
-stm32f10x_it.c(41): error:  #167: argument of type "int" is incompatible with parameter of type "const char *restrict"
-Target not created
-Build target 'STM32F103 Simulator'
-compiling stm32f10x_it.c...
-stm32f10x_it.c(41): warning:  #181-D: argument is incompatible with corresponding format string conversion
 linking...
-Program Size: Code=13088 RO-data=416 RW-data=184 ZI-data=4032  
-".\Obj\Blinky.axf" - 0 Error(s), 1 Warning(s).
-Build target 'STM32F103 Simulator'
-compiling stm32f10x_it.c...
-linking...
-Program Size: Code=13088 RO-data=416 RW-data=184 ZI-data=4032  
-".\Obj\Blinky.axf" - 0 Error(s), 0 Warning(s).
-Build target 'STM32F103 Simulator'
-compiling stm32f10x_it.c...
-compiling RTX_Tasks.c...
-linking...
-Program Size: Code=13112 RO-data=416 RW-data=188 ZI-data=4036  
+Program Size: Code=12924 RO-data=416 RW-data=180 ZI-data=4036  
 ".\Obj\Blinky.axf" - 0 Error(s), 0 Warning(s).

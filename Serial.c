@@ -21,11 +21,38 @@
 volatile int ITM_RxBuffer = ITM_RXBUFFER_EMPTY;  /*  CMSIS Debug Input        */
 #endif
 
+/*----------------------------------------------------------------------------
+  Initialize UART pins, Baudrate
+ *----------------------------------------------------------------------------*/
+void SER_Init_USART1 (void) {
+#ifndef __DBG_ITM
+  int i;
+
+  RCC->APB2ENR |=  (   1UL <<  0);         /* enable clock Alternate Function */
+  AFIO->MAPR   &= ~(   1UL <<  2);         /* clear USART1 remap              */
+
+  RCC->APB2ENR |=  (   1UL <<  2);         /* enable GPIOA clock              */
+  GPIOA->CRH   &= ~(0xFFUL <<  4);         /* clear PA9, PA10                 */
+  GPIOA->CRH   |=  (0x0BUL <<  4);         /* USART1 Tx (PA9) output push-pull*/
+  GPIOA->CRH   |=  (0x04UL <<  8);         /* USART1 Rx (PA10) input floating */
+
+  RCC->APB2ENR |=  (   1UL << 14);         /* enable USART1 clock             */
+
+  /* 115200 baud, 8 data bits, 1 stop bit, no flow control */
+  USART1->CR1   = 0x002C;                  /* enable RX, TX                   */
+  USART1->CR2   = 0x0000;
+  USART1->CR3   = 0x0000;                  /* no flow control                 */
+  USART1->BRR   = 0x0271;
+  for (i = 0; i < 0x1000; i++) __NOP();    /* avoid unwanted output           */
+  USART1->CR1  |= 0x2000;                  /* enable USART                   */
+
+#endif
+}
 
 /*----------------------------------------------------------------------------
   Initialize UART pins, Baudrate
  *----------------------------------------------------------------------------*/
-void SER_Init (void) {
+void SER_Init_USART2 (void) {
 #ifndef __DBG_ITM
   int i;
 

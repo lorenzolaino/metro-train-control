@@ -462,16 +462,6 @@
               <FilePath>..\STM32F10x_StdPeriph_Driver\src\misc.c</FilePath>
             </File>
             <File>
-              <FileName>swt.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\swt.c</FilePath>
-            </File>
-            <File>
-              <FileName>swt.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\swt.h</FilePath>
-            </File>
-            <File>
               <FileName>Controller.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Controller.c</FilePath>
@@ -515,6 +505,11 @@
               <FileName>simulator.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\simulator.h</FilePath>
+            </File>
+            <File>
+              <FileName>lever.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\lever.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -986,16 +981,6 @@
               <FilePath>..\STM32F10x_StdPeriph_Driver\src\misc.c</FilePath>
             </File>
             <File>
-              <FileName>swt.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\swt.c</FilePath>
-            </File>
-            <File>
-              <FileName>swt.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\swt.h</FilePath>
-            </File>
-            <File>
               <FileName>Controller.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Controller.c</FilePath>
@@ -1039,6 +1024,11 @@
               <FileName>simulator.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\simulator.h</FilePath>
+            </File>
+            <File>
+              <FileName>lever.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\lever.h</FilePath>
             </File>
           </Files>
         </Group>

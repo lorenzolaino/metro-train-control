@@ -2,64 +2,38 @@
 #include <stm32f10x.h>
 #include <stdbool.h> 
 #include "controller.h"
-#include "swt.h"
 #include "stm32f10x_it.h"
+#include "lever.h"
 
-// Output on GPIO/C
-#define max_Power 2
-#define med_Power 1
-#define min_Power 0
-#define max_Braking_Force 11
-#define str_Braking_Force 10
-#define med_Braking_Force 9
-#define min_Braking_Force 8
-
-// Input on GPIO/B
-#define max_Acceleration 8
-#define med_Acceleration 7
-#define min_Acceleration 6
-#define no_Acceleration_No_Braking 5
-#define min_Braking 4
-#define med_Braking 3
-#define str_Braking 2
-
-// Correctness constant
-int max_Acceleration_Timer = 400; // 4 seconds
-int max_No_Input_Timer = 300;			// 3 seconds
-
-int current_State = 1<<no_Acceleration_No_Braking;
-
-extern OS_TID stop_Signal_Final_Task_ID;
-
-void initial_Configuration(void) {
-	RCC->APB2ENR |= RCC_APB2ENR_IOPCEN;
-  GPIOC->CRH    = 0x00003333;               /*PC.8-9-10-11 define as Output - Braking */
-	GPIOC->CRL    = 0x00000333;								/*PC.0-1-2 define as Output - Acceleration */
-}	
-
+/*----------------------------------------------------------------------------
+  Correctness constant and variable for handling max acceleration and no input
+ *----------------------------------------------------------------------------*/
+const int max_Acceleration_Timer = 400; // 4 seconds
+const int max_No_Input_Timer = 300;			// 3 seconds
 unsigned int max_Acceleration_Time = 0;
 unsigned int max_No_Input_Time = 0;
 
+/*----------------------------------------------------------------------------
+  Current state of the lever 
+ *----------------------------------------------------------------------------*/
+int current_State = 1<<no_Acceleration_No_Braking;
+
+extern OS_TID stop_Signal_Final_Task_ID;	
+
+/*----------------------------------------------------------------------------
+  Check Input: handle the input read from the position of the lever
+ *----------------------------------------------------------------------------*/
 void check_Input(void) {
 
 	switch(GPIOB->IDR) {
 		case 1<<str_Braking:
-			max_Acceleration_Time = 0;
-			turn_Off_Led(1<<current_State);
-			turn_On_Led(1<<str_Braking_Force);
-			set_Current_State(str_Braking_Force);
+			manage_Input(str_Braking_Force);
 			break;
 		case 1<<med_Braking:
-			max_Acceleration_Time = 0; 
-			turn_Off_Led(1<<current_State);
-			turn_On_Led(1<<med_Braking_Force);
-			set_Current_State(med_Braking_Force);
+			manage_Input(med_Braking_Force);
 			break;
 		case 1<<min_Braking:
-			max_Acceleration_Time = 0;
-			turn_Off_Led(1<<current_State);
-			turn_On_Led(1<<min_Braking_Force);
-			set_Current_State(min_Braking_Force);
+			manage_Input(min_Braking_Force);
 			break;
 		case 1<<no_Acceleration_No_Braking:
 			max_Acceleration_Time = 0;
@@ -67,19 +41,12 @@ void check_Input(void) {
 			set_Current_State(no_Acceleration_No_Braking);
 			break;
 		case 1<<min_Acceleration:
-			max_Acceleration_Time = 0;
-			turn_Off_Led(1<<current_State);
-			turn_On_Led(1<<min_Power);
-			set_Current_State(min_Power);
+			manage_Input(min_Power);
 			break;
 		case 1<<med_Acceleration:
-			max_Acceleration_Time = 0;
-			turn_Off_Led(1<<current_State);
-			turn_On_Led(1<<med_Power);
-			set_Current_State(med_Power);
+			manage_Input(med_Power);
 			break;
 		case 1<<max_Acceleration:
-			
 			max_Acceleration_Time++;
 			if (max_Acceleration_Time >= max_Acceleration_Timer) {
 				turn_Off_Led(1<<max_Power);
@@ -100,18 +67,41 @@ void check_Input(void) {
 	}
 }
 
+/*----------------------------------------------------------------------------
+  Manage Input: turn off the current state led, turn on the active led 
+								and reset the max acceleration timer
+ *----------------------------------------------------------------------------*/
+void manage_Input(int pin) {
+	max_Acceleration_Time = 0;
+	turn_Off_Led(1<<current_State);
+	turn_On_Led(1<<pin);
+	set_Current_State(pin);
+}
+
+/*----------------------------------------------------------------------------
+  Turn On Led: turn on the led on the GPIOC 
+ *----------------------------------------------------------------------------*/
 void turn_On_Led(int out_pin) {
 	GPIOC->ODR |= out_pin;
 }
 
+/*----------------------------------------------------------------------------
+  Turn Off Led: turn off the led on the GPIOC 
+ *----------------------------------------------------------------------------*/
 void turn_Off_Led(int out_pin) {
 	GPIOC->ODR &= ~out_pin;
 }
 
+/*----------------------------------------------------------------------------
+  Set Current State: set the current state of the lever  
+ *----------------------------------------------------------------------------*/
 void set_Current_State(int state) {
 	current_State = state;
 }
 
+/*----------------------------------------------------------------------------
+  Get Current State: get the current state of the lever  
+ *----------------------------------------------------------------------------*/
 int get_Current_State(void) {
 	return current_State;
 }

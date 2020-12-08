@@ -2,17 +2,7 @@
 #include "RTX_Tasks.h"
 #include "simulator.h"
 #include "controller.h"
-
-// Input on GPIO/B
-#define max_Acceleration 8
-#define med_Acceleration 7
-#define min_Acceleration 6
-#define no_Acceleration_No_Braking 5
-#define min_Braking 4
-#define med_Braking 3
-#define str_Braking 2
-#define stop_Signal 1
-#define emergency_Brake 0
+#include "lever.h"
 
 extern OS_TID background_Task_ID, emergency_Task_ID, stop_Signal_Task_ID, traffic_Messages_Task_ID, simulation_Task_ID;
 

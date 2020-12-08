@@ -2,4 +2,4 @@
 -I D:\Programs\Keils\ARM\RV31\INC 
 -I D:\Programs\Keils\ARM\CMSIS\Include 
 -I D:\Programs\Keils\ARM\Inc\ST\STM32F10x 
--DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER -o ".\Obj\serial.o" --omf_browse ".\Obj\serial.crf" --depend ".\Obj\serial.d" "Serial.c"
+-DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER -o ".\Obj\simulator.o" --omf_browse ".\Obj\simulator.crf" --depend ".\Obj\simulator.d" "Simulator.c"
