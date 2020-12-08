@@ -206,7 +206,6 @@ int main(void) {
 	
 	SER_Init();
 	USART_config();
-	//USART2_config();
 	USART_NVIC_config();
 	
 	

@@ -15,6 +15,7 @@ volatile int TRAFFIC_MESSAGE;
 volatile unsigned int SWT_STATE = 0;
 
 unsigned int in_Pin_Stop_Signal=1<<1, out_Pin_Stop_Signal=1<<10;	
+extern int cmd; 
 
 __task void BackgroundTask(void);
 __task void EmergencyTask(void); 
@@ -111,6 +112,7 @@ __task void TrafficMessagesTask(void) {
 		os_evt_wait_or(0x01, 0xFFFF);
 
 		BACKGROUND=0; EMERGENCY_BRAKE = 0; STOP_SIGNAL=0; STOP_SIGNAL_FINAL=0; IDLE=0; TRAFFIC_MESSAGE=1;
+		printf("%c", cmd);
 		
 	}
 	

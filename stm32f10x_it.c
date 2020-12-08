@@ -10,6 +10,7 @@ extern OS_TID background_Task_ID , emergency_Task_ID, stop_Signal_Task_ID, traff
 
 int is_Emergency_Brake_Active = 0; 
 int is_Stop_Signal_Active = 0;
+int cmd; 
 
 void TIM2_IRQHandler(void) {
   /* Clear TIM2 update interrupt */
@@ -35,14 +36,9 @@ void EXTI1_IRQHandler(void) {  // EXTI1_IRQn
 
 
 void USART1_IRQHandler(void) {
-	int cmd; 
 	if(USART_GetITStatus(USART1, USART_IT_RXNE) != RESET) {
 		cmd = USART_ReceiveData(USART1);
-		if (cmd == 'a') {
-			printf("A");
-			
-		}
-		//isr_evt_set(0x01, traffic_Messages_Task_ID);
+		isr_evt_set(0x01, traffic_Messages_Task_ID);
 	}
 }
 
