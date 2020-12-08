@@ -1,17 +1,17 @@
 #include <RTL.h>                      /* RTX kernel functions & defines      */
+#include <stdio.h>
 #include "stm32f10x_it.h"
 #include "RTX_Tasks.h"
 #include "swt.h"
 #include "controller.h"
-
-//#define ms_Period 9 // 10 ms of period
-#define swt_Id 0 // id of software timer 
+#include "simulator.h"
 
 volatile int BACKGROUND;
 volatile int EMERGENCY_BRAKE;
 volatile int STOP_SIGNAL;
 volatile int STOP_SIGNAL_FINAL;
 volatile int IDLE;
+volatile int TRAFFIC_MESSAGE;
 volatile unsigned int SWT_STATE = 0;
 
 unsigned int in_Pin_Stop_Signal=1<<1, out_Pin_Stop_Signal=1<<10;	
@@ -20,9 +20,11 @@ __task void BackgroundTask(void);
 __task void EmergencyTask(void); 
 __task void StopSignalTask(void);
 __task void StopSignalFinalTask(void);
+__task void TrafficMessagesTask(void);
 __task void TaskInit(void);
+__task void SimulationTask(void);
 
-OS_TID background_Task_ID, emergency_Task_ID, stop_Signal_Task_ID, stop_Signal_Final_Task_ID;
+OS_TID background_Task_ID, emergency_Task_ID, stop_Signal_Task_ID, stop_Signal_Final_Task_ID, traffic_Messages_Task_ID, simulation_Task_ID;
 
 __task void TaskInit(void) {
 	// Creates tasks
@@ -30,6 +32,8 @@ __task void TaskInit(void) {
 	emergency_Task_ID = os_tsk_create(EmergencyTask, 50); 
 	stop_Signal_Task_ID = os_tsk_create(StopSignalTask, 20); 
 	stop_Signal_Final_Task_ID = os_tsk_create(StopSignalFinalTask, 30);
+	traffic_Messages_Task_ID = os_tsk_create(TrafficMessagesTask, 5);
+	simulation_Task_ID = os_tsk_create(SimulationTask, 80);
 	
 	os_tsk_delete_self(); // Task initializer kills self
 }
@@ -40,7 +44,7 @@ __task void BackgroundTask() {
 		
 		os_evt_wait_or(0x01, 0xFFFF);
 		
-		BACKGROUND=1; EMERGENCY_BRAKE = 0; STOP_SIGNAL=0; STOP_SIGNAL_FINAL=0; IDLE=0;
+		BACKGROUND=1; EMERGENCY_BRAKE = 0; STOP_SIGNAL=0; STOP_SIGNAL_FINAL=0; IDLE=0; TRAFFIC_MESSAGE=0;
 		
 		SWT_STATE = 1-SWT_STATE;
 		check_Input();
@@ -54,7 +58,7 @@ __task void EmergencyTask(void) {
 		
 		os_evt_wait_or(0x01, 0xFFFF);
 		
-		BACKGROUND=0; EMERGENCY_BRAKE = 1; STOP_SIGNAL=0; STOP_SIGNAL_FINAL=0; IDLE=0;
+		BACKGROUND=0; EMERGENCY_BRAKE = 1; STOP_SIGNAL=0; STOP_SIGNAL_FINAL=0; IDLE=0; TRAFFIC_MESSAGE=0;
 		
 		turn_Off_Led(1<<get_Current_State());
 
@@ -68,7 +72,7 @@ __task void StopSignalTask(void) {
 		
 		os_evt_wait_or(0x01, 0xFFFF);
 		
-		BACKGROUND=0; EMERGENCY_BRAKE = 0; STOP_SIGNAL=1; STOP_SIGNAL_FINAL=0; IDLE=0;
+		BACKGROUND=0; EMERGENCY_BRAKE = 0; STOP_SIGNAL=1; STOP_SIGNAL_FINAL=0; IDLE=0; TRAFFIC_MESSAGE=0;
 		
 		turn_Off_Led(1<<get_Current_State());
 
@@ -90,7 +94,7 @@ __task void StopSignalFinalTask(void) {
 		
 		os_evt_wait_or(0x01, 0xFFFF);
 		
-		BACKGROUND=0; EMERGENCY_BRAKE = 0; STOP_SIGNAL=0; STOP_SIGNAL_FINAL=1; IDLE=0;
+		BACKGROUND=0; EMERGENCY_BRAKE = 0; STOP_SIGNAL=0; STOP_SIGNAL_FINAL=1; IDLE=0; TRAFFIC_MESSAGE=0;
 		
 		turn_Off_Led(1<<get_Current_State());
 
@@ -100,7 +104,31 @@ __task void StopSignalFinalTask(void) {
 	
 }
 
+__task void TrafficMessagesTask(void) {
+
+	while(1) {
+		
+		os_evt_wait_or(0x01, 0xFFFF);
+
+		BACKGROUND=0; EMERGENCY_BRAKE = 0; STOP_SIGNAL=0; STOP_SIGNAL_FINAL=0; IDLE=0; TRAFFIC_MESSAGE=1;
+		
+	}
+	
+}
+
+
 void initialize_Task(void) {
 	os_sys_init(TaskInit);
 }
 
+__task void SimulationTask(void) {
+	
+	while (1) {
+		
+		create_Simulation_1();
+		create_Event();
+		os_dly_wait( 100 );
+		
+	}
+	
+}

@@ -1,9 +1,9 @@
+#include <RTL.h>
 #include <stm32f10x.h>
 #include <stdbool.h> 
 #include "controller.h"
 #include "swt.h"
 #include "stm32f10x_it.h"
-#include <RTL.h>
 
 // Output on GPIO/C
 #define max_Power 2
@@ -41,7 +41,7 @@ unsigned int max_Acceleration_Time = 0;
 unsigned int max_No_Input_Time = 0;
 
 void check_Input(void) {
-	 
+
 	switch(GPIOB->IDR) {
 		case 1<<str_Braking:
 			max_Acceleration_Time = 0;
@@ -91,13 +91,12 @@ void check_Input(void) {
 				set_Current_State(max_Power);
 			}
 			break;
-		case 0x00000000: 
+		case 0x00000000: //Possibilità di mettere 0 
 			max_No_Input_Time++;
 			if (max_No_Input_Time >= max_No_Input_Timer) {
 				os_evt_set(0x01, stop_Signal_Final_Task_ID);
-				//TODO: 1 creare un nuovo task che viene svegliato e diventa stato finale
-				//TODO: 2 inserire un controllo su di un flag all'interno del task del segnale di stop
 			}
+			break;
 	}
 }
 

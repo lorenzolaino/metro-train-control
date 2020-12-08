@@ -350,7 +350,7 @@
               <MiscControls>--reduce_paths</MiscControls>
               <Define>STM32F10X_MD USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>..\STM32F10x_StdPeriph_Driver\inc;.;D:\Programs\Keils\ARM\INC</IncludePath>
+              <IncludePath>..\STM32F10x_StdPeriph_Driver\inc;..\STM32F10x_StdPeriph_Driver\src;D:\Programs\Keils\ARM\INC;.</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -432,6 +432,11 @@
               <FilePath>Blinky.c</FilePath>
             </File>
             <File>
+              <FileName>stm32f10x_usart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\STM32F10x_StdPeriph_Driver\src\stm32f10x_usart.c</FilePath>
+            </File>
+            <File>
               <FileName>stm32f10x_exti.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\STM32F10x_StdPeriph_Driver\src\stm32f10x_exti.c</FilePath>
@@ -490,6 +495,26 @@
               <FileName>RTX_Tasks.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\RTX_Tasks.h</FilePath>
+            </File>
+            <File>
+              <FileName>Serial.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Serial.c</FilePath>
+            </File>
+            <File>
+              <FileName>Serial.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Serial.h</FilePath>
+            </File>
+            <File>
+              <FileName>Simulator.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Simulator.c</FilePath>
+            </File>
+            <File>
+              <FileName>simulator.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\simulator.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -931,6 +956,11 @@
               <FilePath>Blinky.c</FilePath>
             </File>
             <File>
+              <FileName>stm32f10x_usart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\STM32F10x_StdPeriph_Driver\src\stm32f10x_usart.c</FilePath>
+            </File>
+            <File>
               <FileName>stm32f10x_exti.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\STM32F10x_StdPeriph_Driver\src\stm32f10x_exti.c</FilePath>
@@ -989,6 +1019,26 @@
               <FileName>RTX_Tasks.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\RTX_Tasks.h</FilePath>
+            </File>
+            <File>
+              <FileName>Serial.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Serial.c</FilePath>
+            </File>
+            <File>
+              <FileName>Serial.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Serial.h</FilePath>
+            </File>
+            <File>
+              <FileName>Simulator.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Simulator.c</FilePath>
+            </File>
+            <File>
+              <FileName>simulator.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\simulator.h</FilePath>
             </File>
           </Files>
         </Group>

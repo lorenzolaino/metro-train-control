@@ -4,6 +4,7 @@
  *----------------------------------------------------------------------------*/
 
 #include <stm32f10x.h>                       /* STM32F103 definitions         */
+#include <stdio.h>
 #include "stm32f10x_it.h"
 #include "stm32f10x_tim.h"
 #include "stm32f10x_gpio.h"
@@ -12,25 +13,10 @@
 #include "swt.h"
 #include "controller.h" 
 #include "RTX_Tasks.h"
+#include "Serial.h"
 
 #define ms_Period 9 // 10 ms of period
 #define swt_Id 0 // id of software timer 
-
-//volatile unsigned int SWT_STATE = 0;
-int PROVA = 0; 
-int WAIT;
-int IN_INT=0;
-
-/*----------------------------------------------------------------------------
-  wait function
- *----------------------------------------------------------------------------*/
-void wait (void)  {
-  int  d, j;
-  WAIT = 1;
-  for (j=0; j<5; j++)
-		for (d = 0; d < 1000; d++);
-  WAIT = 0;
-}
 
 void Configure_PB0_Emergency_Braking(void) {
 	
@@ -94,10 +80,11 @@ void Configure_PB1_Stop_Signal(void) {
 }
 
 /*----------------------------------------------------------------------------
-  Software timer initialization
+  Timer initialization
  *----------------------------------------------------------------------------*/
 
-void all_Init(void) {
+void Configure_Timer(void) {
+	
   TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure;
   TIM_OCInitTypeDef TIM_OCInitStructure;
 	NVIC_InitTypeDef NVIC_InitStructure;
@@ -143,12 +130,63 @@ void all_Init(void) {
   TIM_ClearFlag(TIM2, TIM_FLAG_CC2);
 }
 
-void configure_Swt(void) {
-	all_Init();
-	//swtInit();
-	//swtSetPeriod(swt_Id, ms_Period);
+void USART_NVIC_config(void) {
+	NVIC_InitTypeDef NVIC_InitStructureUSART;
+  /* Configure two bits for preemption priority */
+  NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
+	NVIC_InitStructureUSART.NVIC_IRQChannel = USART1_IRQn;
+  NVIC_InitStructureUSART.NVIC_IRQChannelSubPriority = 0;
+  NVIC_InitStructureUSART.NVIC_IRQChannelCmd = ENABLE;
+  NVIC_Init(&NVIC_InitStructureUSART);
 }
 
+void USART_config(void){
+	USART_InitTypeDef USART_InitStructure;
+	RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1, ENABLE); 
+	
+  /* Configure the NVIC Preemption Priority Bits */  
+  NVIC_PriorityGroupConfig(NVIC_PriorityGroup_0);
+  
+  /* Enable the USART1 Interrupt */
+  USART_InitStructure.USART_BaudRate = 9600;
+  USART_InitStructure.USART_WordLength = USART_WordLength_8b;
+  USART_InitStructure.USART_StopBits = USART_StopBits_1;
+  USART_InitStructure.USART_Parity = USART_Parity_No;
+  USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
+  USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
+
+  /* Configure USART1 */
+  USART_Init(USART1, &USART_InitStructure);
+  
+  /* Enable USART1 Receive and Transmit interrupts */
+  USART_ITConfig(USART1, USART_IT_RXNE, ENABLE);
+  // USART_ITConfig(USART1, USART_IT_TXE, ENABLE);
+  USART_Cmd(USART1, ENABLE);
+}
+
+void USART2_config(void){
+	USART_InitTypeDef USART_InitStructure;
+	RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2, ENABLE); 
+	
+  /* Configure the NVIC Preemption Priority Bits */  
+  NVIC_PriorityGroupConfig(NVIC_PriorityGroup_0);
+  
+  /* Enable the USART2 Interrupt */
+  USART_InitStructure.USART_BaudRate = 9600;
+  USART_InitStructure.USART_WordLength = USART_WordLength_8b;
+  USART_InitStructure.USART_StopBits = USART_StopBits_1;
+  USART_InitStructure.USART_Parity = USART_Parity_No;
+  USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
+  USART_InitStructure.USART_Mode = USART_Mode_Rx | USART_Mode_Tx;
+
+  /* Configure USART1 */
+  USART_Init(USART2, &USART_InitStructure);
+  
+  /* Enable USART1 Receive and Transmit interrupts */
+  USART_ITConfig(USART2, USART_IT_RXNE, ENABLE);
+  // USART_ITConfig(USART1, USART_IT_TXE, ENABLE);
+  USART_Cmd(USART2, ENABLE);
+}
 
 /*----------------------------------------------------------------------------
   Main Program
@@ -159,15 +197,23 @@ int main(void) {
 	RCC->APB2ENR |= RCC_APB2ENR_IOPCEN;
   GPIOC->CRH    = 0x00003333;               /*PC.11-10-9-8 define as Output - Braking */
 	GPIOC->CRL    = 0x00000333;								/*PC.2-1-0 define as Output - Acceleration */
+	GPIOB->CRH    = 0x88888888;
+	GPIOB->CRL    = 0x88888888;
 	
   Configure_PB0_Emergency_Braking();
 	Configure_PB1_Stop_Signal();
-	configure_Swt(); 
+	Configure_Timer(); 
 	
-	IN_INT=0;
+	SER_Init();
+	USART_config();
+	//USART2_config();
+	USART_NVIC_config();
+	
 	
 	initialize_Task();
-
+	
 }
+
+
 
 
