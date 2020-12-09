@@ -4,6 +4,7 @@
 #include "RTX_Tasks.h"
 #include "controller.h"
 #include "simulator.h"
+#include "simulation.h"
 
 /*----------------------------------------------------------------------------
   Task varaible: useful to keep track of tasks into the logic analyzer
@@ -16,13 +17,7 @@ volatile int IDLE;
 volatile int TRAFFIC_MESSAGE;
 volatile int SIMULATION_EVENT;
 
-extern int cmd; 
-extern Simulator simulation_Normal[10];
-extern Simulator simulation_Stop_Signal[9];
-extern Simulator simulation_Emergency_Brake[7];
-extern Simulator simulation_Max_Timer_Acceleration[6];
-extern Simulator simulation_Max_Timer_No_Input[5];
-extern Simulator simulation_Traffic_Messages[8];
+extern int cmd;
 
 /*----------------------------------------------------------------------------
   Declared Tasks
@@ -119,28 +114,33 @@ void initialize_Task(void) {
 
 /*----------------------------------------------------------------------------
   Simulation task: simulate and test the input into the system 
+	
+	- In order to run a different simulation change the current_Simulation	
+    variable with one of the Simulation.h declaration 
  *----------------------------------------------------------------------------*/
 __task void SimulationTask(void) {
+	Simulator* current_Simulation = simulation_Traffic_Messages; 
+	Simulator sim;
+	int size = 10;
+	int i = 0;
+	
 	while (1) {
-		Simulator sim;
-		int i;
 		
-		for (i = 0; i < sizeof(simulation_Stop_Signal); i++) {
-			BACKGROUND=0; EMERGENCY_BRAKE = 0; STOP_SIGNAL=0; STOP_SIGNAL_FINAL=0; IDLE=0; TRAFFIC_MESSAGE=0; SIMULATION_EVENT=1;
-			sim = simulation_Stop_Signal[i];
-			create_Event(sim.event);
+		BACKGROUND=0; EMERGENCY_BRAKE = 0; STOP_SIGNAL=0; STOP_SIGNAL_FINAL=0; IDLE=0; TRAFFIC_MESSAGE=0; SIMULATION_EVENT=1;
+		sim = current_Simulation[i];
+		i = (i+1)%size;
+		create_Event(sim.event);
 			
-			if (sim.task_ID == 2) {
-				os_evt_set(0x01, emergency_Task_ID);
-			} else if (sim.task_ID == 3) {
-				os_evt_set(0x01, stop_Signal_Task_ID);
-			} else if (sim.task_ID == 4) {
-				cmd = sim.event;
-				os_evt_set(0x01, traffic_Messages_Task_ID);
-			}
-			
-			os_dly_wait(sim.delay);
+		if (sim.task_ID == 2) {
+			os_evt_set(0x01, emergency_Task_ID);
+		} else if (sim.task_ID == 3) {
+			os_evt_set(0x01, stop_Signal_Task_ID);
+		} else if (sim.task_ID == 4) {
+			cmd = sim.event;
+			os_evt_set(0x01, traffic_Messages_Task_ID);
 		}
+			
+		os_dly_wait(sim.delay);
 	}
 }
 

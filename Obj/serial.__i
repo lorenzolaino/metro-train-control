@@ -1,5 +1,0 @@
--c --cpu Cortex-M3 -D__RTX -D__MICROLIB -g -O0 --apcs=interwork -I..\STM32F10x_StdPeriph_Driver\inc -I..\STM32F10x_StdPeriph_Driver\src -ID:\Programs\Keils\ARM\INC -I. --reduce_paths 
--I D:\Programs\Keils\ARM\RV31\INC 
--I D:\Programs\Keils\ARM\CMSIS\Include 
--I D:\Programs\Keils\ARM\Inc\ST\STM32F10x 
--DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER -o ".\Obj\serial.o" --omf_browse ".\Obj\serial.crf" --depend ".\Obj\serial.d" "Serial.c"

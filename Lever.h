@@ -21,3 +21,4 @@
 #define str_Braking 2
 #define stop_Signal 1
 #define emergency_Brake 0
+#define no_Input 0
