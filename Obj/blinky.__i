@@ -2,4 +2,4 @@
 -I D:\Programs\Keils\ARM\RV31\INC 
 -I D:\Programs\Keils\ARM\CMSIS\Include 
 -I D:\Programs\Keils\ARM\Inc\ST\STM32F10x 
--DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER -o ".\Obj\rtx_tasks.o" --omf_browse ".\Obj\rtx_tasks.crf" --depend ".\Obj\rtx_tasks.d" "RTX_Tasks.c"
+-DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER -o ".\Obj\blinky.o" --omf_browse ".\Obj\blinky.crf" --depend ".\Obj\blinky.d" "Blinky.c"

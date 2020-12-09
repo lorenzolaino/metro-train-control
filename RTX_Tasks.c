@@ -18,6 +18,7 @@ volatile int TRAFFIC_MESSAGE;
 volatile int SIMULATION_EVENT;
 
 extern int cmd;
+extern int is_Sim_Active; 
 
 /*----------------------------------------------------------------------------
   Declared Tasks
@@ -44,7 +45,9 @@ __task void TaskInit(void) {
 	stop_Signal_Task_ID = os_tsk_create(StopSignalTask, 20); 
 	stop_Signal_Final_Task_ID = os_tsk_create(StopSignalFinalTask, 30);
 	traffic_Messages_Task_ID = os_tsk_create(TrafficMessagesTask, 5);
-	simulation_Task_ID = os_tsk_create(SimulationTask, 80);
+	if (is_Sim_Active) {
+		simulation_Task_ID = os_tsk_create(SimulationTask, 80);
+	}
 	
 	os_tsk_delete_self(); // Task initializer kills self
 }

@@ -1,8 +1,3 @@
-/*----------------------------------------------------------------------------
- * Name:    BlinkySingleLED_commanded_IE.c
- * Purpose: Turn on/off LED depending on input, managed via interrupt
- *----------------------------------------------------------------------------*/
-
 #include <stm32f10x.h>                       
 #include <stdio.h>
 #include "stm32f10x_it.h"
@@ -13,6 +8,11 @@
 #include "controller.h" 
 #include "RTX_Tasks.h"
 #include "Serial.h"
+
+/*----------------------------------------------------------------------------
+  Flag that enable or disable the simulation
+ *----------------------------------------------------------------------------*/
+int is_Sim_Active = 1; 
 
 /*----------------------------------------------------------------------------
   Configure Pin 0 (Emergency braking) with interrupt
@@ -129,16 +129,10 @@ void Configure_Timer(void) {
 }
 
 /*----------------------------------------------------------------------------
-  Configure USART1 Interrupt
+  Activate or deactivate the simulation (defualt: Simulation activated)
  *----------------------------------------------------------------------------*/
-void USART1_NVIC_config(void) {
-	
-	NVIC_InitTypeDef NVIC_InitStructureUSART;
-  NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
-	NVIC_InitStructureUSART.NVIC_IRQChannel = USART1_IRQn;
-  NVIC_InitStructureUSART.NVIC_IRQChannelSubPriority = 0;
-  NVIC_InitStructureUSART.NVIC_IRQChannelCmd = ENABLE;
-  NVIC_Init(&NVIC_InitStructureUSART);
+void Configure_Simulation(int is_Active) {
+	is_Sim_Active = is_Active;
 }
 
 /*----------------------------------------------------------------------------
@@ -161,6 +155,8 @@ int main(void) {
 	SER_Init_USART1();
 	SER_Init_USART2();
 	USART1_NVIC_config();
+	
+	Configure_Simulation(1);
 	
 	initialize_Task();
 	

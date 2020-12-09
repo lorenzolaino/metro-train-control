@@ -77,6 +77,18 @@ void SER_Init_USART2 (void) {
 #endif
 }
 
+/*----------------------------------------------------------------------------
+  Configure USART1 Interrupt
+ *----------------------------------------------------------------------------*/
+void USART1_NVIC_config(void) {
+	
+	NVIC_InitTypeDef NVIC_InitStructureUSART;
+  NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
+	NVIC_InitStructureUSART.NVIC_IRQChannel = USART1_IRQn;
+  NVIC_InitStructureUSART.NVIC_IRQChannelSubPriority = 0;
+  NVIC_InitStructureUSART.NVIC_IRQChannelCmd = ENABLE;
+  NVIC_Init(&NVIC_InitStructureUSART);
+}
 
 /*----------------------------------------------------------------------------
   Write character to Serial Port

@@ -26,7 +26,7 @@ D:\Programs\Keils\ARM\RV31\LIB\RTX_CM3.LIB --library_type=microlib --strict --sc
 ### ADS-LD Output File: '.\Obj\Blinky.axf'
 ### ADS-LD Command File: '.\Obj\Blinky.lnp'
 ### Checking for dirty Components...
-### Creating CmdFile '.\Obj\Blinky.lnp', Handle=0x00001C88
+### Creating CmdFile '.\Obj\Blinky.lnp', Handle=0x00000D20
 ### Writing '.lnp' file
 ### ADS-LD Command file '.\Obj\Blinky.lnp' is ready.
 ### ADS-LD: About to start ADS-LD Thread.

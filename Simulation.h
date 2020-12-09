@@ -93,13 +93,13 @@ Simulator simulation_Max_Timer_No_Input[10] = { {no_Acceleration_No_Braking, 1, 
  *----------------------------------------------------------------------------*/																						 
 Simulator simulation_Traffic_Messages[10] = { {no_Acceleration_No_Braking, 1, 100},
 																						  {min_Braking, 1, 100},
-																						  {'H', 4, 10},
+																						  {'T', 4, 10},
+																						  {'r', 4, 10},
+																							{'a', 4, 10},
+																							{'f', 4, 10},
+																						  {'f', 4, 10},
 																						  {'i', 4, 10},
-																							{' ', 4, 10},
-																							{med_Braking, 1, 100},
-																						  {'M', 4, 10},
-																						  {'a', 4, 10},
-																						  {'n', 4, 10},
+																						  {'c', 4, 10},
 																						  {str_Braking, 1, 100}																							
 																					 };				
 																					 
