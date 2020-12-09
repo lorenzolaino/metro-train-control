@@ -127,6 +127,7 @@ extern volatile int STOP_SIGNAL;
 extern volatile int STOP_SIGNAL_FINAL;
 extern volatile int IDLE;
 extern volatile int TRAFFIC_MESSAGE;
+extern volatile int SIMULATION_EVENT;
 
 __task void os_idle_demon (void) {
   /* The idle demon is a system task, running when no other task is ready */
@@ -138,6 +139,7 @@ __task void os_idle_demon (void) {
 		 STOP_SIGNAL = 0;
 		 STOP_SIGNAL_FINAL = 0;
 		 TRAFFIC_MESSAGE=0;
+		 SIMULATION_EVENT=0;
      IDLE = 1;
 
   /* HERE: include optional user code to be executed when no task runs.*/

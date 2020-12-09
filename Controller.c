@@ -5,6 +5,8 @@
 #include "stm32f10x_it.h"
 #include "lever.h"
 
+extern int current_Event_Pin; 
+
 /*----------------------------------------------------------------------------
   Correctness constant and variable for handling max acceleration and no input
  *----------------------------------------------------------------------------*/
@@ -19,13 +21,16 @@ unsigned int max_No_Input_Time = 0;
 int current_State = 1<<no_Acceleration_No_Braking;
 
 extern OS_TID stop_Signal_Final_Task_ID;	
+int is_Emergency_Brake_Active = 0; 
+int is_Stop_Signal_Active = 0;
 
 /*----------------------------------------------------------------------------
   Check Input: handle the input read from the position of the lever
  *----------------------------------------------------------------------------*/
-void check_Input(void) {
-
-	switch(GPIOB->IDR) {
+void check_Lever_Input(void) {
+	int input = (current_Event_Pin) ? current_Event_Pin : GPIOB->IDR;
+	
+	switch(input) {
 		case 1<<str_Braking:
 			manage_Input(str_Braking_Force);
 			break;
@@ -58,7 +63,7 @@ void check_Input(void) {
 				set_Current_State(max_Power);
 			}
 			break;
-		case 0x00000000: //Possibilità di mettere 0 
+		case 0: //Possibilità di mettere 0 
 			max_No_Input_Time++;
 			if (max_No_Input_Time >= max_No_Input_Timer) {
 				os_evt_set(0x01, stop_Signal_Final_Task_ID);
@@ -105,3 +110,32 @@ void set_Current_State(int state) {
 int get_Current_State(void) {
 	return current_State;
 }
+
+void handle_Emergency_Brake(void) {
+	is_Emergency_Brake_Active = 1; 
+	turn_Off_Led(1<<current_State);
+	turn_On_Led(1<<11);
+}
+
+void handle_Stop_Signal(void) {
+	int input = (current_Event_Pin) ? current_Event_Pin : GPIOB->IDR;
+	
+	turn_Off_Led(1<<current_State);
+	
+	if(input & 1<<stop_Signal) {
+		turn_On_Led(1<<med_Braking_Force);		
+		set_Stop_Signal(1);
+	} else {
+		while(input != 1<<no_Acceleration_No_Braking) {
+			input = (current_Event_Pin) ? current_Event_Pin : GPIOB->IDR;
+		}  
+		turn_Off_Led(1<<med_Braking_Force);   
+		set_Stop_Signal(0);
+	}
+}
+
+void handle_Stop_Signal_Final(void) {
+	turn_Off_Led(1<<current_State);
+	turn_On_Led(1<<med_Braking_Force);
+	set_Stop_Signal(1);
+} 

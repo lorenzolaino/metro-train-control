@@ -11,11 +11,15 @@ volatile int STOP_SIGNAL;
 volatile int STOP_SIGNAL_FINAL;
 volatile int IDLE;
 volatile int TRAFFIC_MESSAGE;
-
-unsigned int in_Pin_Stop_Signal=1<<1, out_Pin_Stop_Signal=1<<10;	
-unsigned int pin_Lever_Idle=1<<5;
+volatile int SIMULATION_EVENT;
 
 extern int cmd; 
+extern Simulator simulation_Normal[10];
+extern Simulator simulation_Stop_Signal[9];
+extern Simulator simulation_Emergency_Brake[7];
+extern Simulator simulation_Max_Timer_Acceleration[6];
+extern Simulator simulation_Max_Timer_No_Input[5];
+extern Simulator simulation_Traffic_Messages[8];
 
 /*----------------------------------------------------------------------------
   Declared Tasks
@@ -53,8 +57,8 @@ __task void TaskInit(void) {
 __task void BackgroundTask() {
 	while(1) {
 		os_evt_wait_or(0x01, 0xFFFF);
-		BACKGROUND=1; EMERGENCY_BRAKE = 0; STOP_SIGNAL=0; STOP_SIGNAL_FINAL=0; IDLE=0; TRAFFIC_MESSAGE=0;
-		check_Input();
+		BACKGROUND=1; EMERGENCY_BRAKE = 0; STOP_SIGNAL=0; STOP_SIGNAL_FINAL=0; IDLE=0; TRAFFIC_MESSAGE=0; SIMULATION_EVENT=0;
+		check_Lever_Input(); 
 	}
 }
 
@@ -64,9 +68,8 @@ __task void BackgroundTask() {
 __task void EmergencyTask(void) {
 	while(1) {
 		os_evt_wait_or(0x01, 0xFFFF);
-		BACKGROUND=0; EMERGENCY_BRAKE = 1; STOP_SIGNAL=0; STOP_SIGNAL_FINAL=0; IDLE=0; TRAFFIC_MESSAGE=0;
-		turn_Off_Led(1<<get_Current_State());
-		turn_On_Led(1<<11);		
+		BACKGROUND=0; EMERGENCY_BRAKE = 1; STOP_SIGNAL=0; STOP_SIGNAL_FINAL=0; IDLE=0; TRAFFIC_MESSAGE=0; SIMULATION_EVENT=0;
+		handle_Emergency_Brake();		
 	}
 }
 
@@ -76,18 +79,8 @@ __task void EmergencyTask(void) {
 __task void StopSignalTask(void) {
 	while(1) {
 		os_evt_wait_or(0x01, 0xFFFF);
-		BACKGROUND=0; EMERGENCY_BRAKE = 0; STOP_SIGNAL=1; STOP_SIGNAL_FINAL=0; IDLE=0; TRAFFIC_MESSAGE=0;
-		turn_Off_Led(1<<get_Current_State());
-
-		if(GPIOB->IDR & in_Pin_Stop_Signal) {
-			turn_On_Led(out_Pin_Stop_Signal);		
-			set_Stop_Signal(1);
-		} else {
-			turn_Off_Led(out_Pin_Stop_Signal);   
-			
-			while(GPIOB->IDR != pin_Lever_Idle);
-			set_Stop_Signal(0);
-		}
+		BACKGROUND=0; EMERGENCY_BRAKE = 0; STOP_SIGNAL=1; STOP_SIGNAL_FINAL=0; IDLE=0; TRAFFIC_MESSAGE=0; SIMULATION_EVENT=0;
+		handle_Stop_Signal();
 	}
 }
 
@@ -98,10 +91,8 @@ __task void StopSignalTask(void) {
 __task void StopSignalFinalTask(void) {
 	while(1) {
 		os_evt_wait_or(0x01, 0xFFFF);
-		BACKGROUND=0; EMERGENCY_BRAKE = 0; STOP_SIGNAL=0; STOP_SIGNAL_FINAL=1; IDLE=0; TRAFFIC_MESSAGE=0;
-		turn_Off_Led(1<<get_Current_State());
-		turn_On_Led(out_Pin_Stop_Signal);
-		set_Stop_Signal(1);
+		BACKGROUND=0; EMERGENCY_BRAKE = 0; STOP_SIGNAL=0; STOP_SIGNAL_FINAL=1; IDLE=0; TRAFFIC_MESSAGE=0; SIMULATION_EVENT=0;
+		handle_Stop_Signal_Final();
 	}
 }
 
@@ -111,7 +102,7 @@ __task void StopSignalFinalTask(void) {
 __task void TrafficMessagesTask(void) {
 	while(1) {
 		os_evt_wait_or(0x01, 0xFFFF);
-		BACKGROUND=0; EMERGENCY_BRAKE = 0; STOP_SIGNAL=0; STOP_SIGNAL_FINAL=0; IDLE=0; TRAFFIC_MESSAGE=1;
+		BACKGROUND=0; EMERGENCY_BRAKE = 0; STOP_SIGNAL=0; STOP_SIGNAL_FINAL=0; IDLE=0; TRAFFIC_MESSAGE=1; SIMULATION_EVENT=0;
 		printf("%c", cmd);
 	}
 }
@@ -128,8 +119,26 @@ void initialize_Task(void) {
  *----------------------------------------------------------------------------*/
 __task void SimulationTask(void) {
 	while (1) {
-		create_Simulation_1();
-		create_Event();
-		os_dly_wait( 100 );
+		Simulator sim;
+		int i;
+		for (i = 0; i < sizeof(simulation_Traffic_Messages); i++) {
+			BACKGROUND=0; EMERGENCY_BRAKE = 0; STOP_SIGNAL=0; STOP_SIGNAL_FINAL=0; IDLE=0; TRAFFIC_MESSAGE=0; SIMULATION_EVENT=1;
+			sim = simulation_Traffic_Messages[i];
+			create_Event(sim.event);
+			
+			if (sim.task_ID == 2) {
+				os_evt_set(0x01, emergency_Task_ID);
+			} else if (sim.task_ID == 3) {
+				os_evt_set(0x01, stop_Signal_Task_ID);
+			} else if (sim.task_ID == 4) {
+				cmd = sim.event;
+				os_evt_set(0x01, traffic_Messages_Task_ID);
+			}
+			
+			os_dly_wait(sim.delay);
+		}
 	}
 }
+
+
+

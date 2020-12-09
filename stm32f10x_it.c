@@ -5,11 +5,10 @@
 #include "RTX_Tasks.h"
 #include "Serial.h"
 
-
 extern OS_TID background_Task_ID , emergency_Task_ID, stop_Signal_Task_ID, traffic_Messages_Task_ID;
+extern int is_Emergency_Brake_Active; 
+extern int is_Stop_Signal_Active;
 
-int is_Emergency_Brake_Active = 0; 
-int is_Stop_Signal_Active = 0;
 int cmd; 
 
 /*----------------------------------------------------------------------------
@@ -31,7 +30,6 @@ void TIM2_IRQHandler(void) {
  *----------------------------------------------------------------------------*/
 void EXTI0_IRQHandler(void) {  // EXTI0_IRQn
 	EXTI_ClearFlag(EXTI_Line0);
-	is_Emergency_Brake_Active = 1; 
 	isr_evt_set(0x01, emergency_Task_ID);
 }
 
@@ -54,7 +52,7 @@ void USART1_IRQHandler(void) {
 }
 
 /*----------------------------------------------------------------------------
-  Set Stop Singal: set the stop signal active flag
+  Set Stop Signal: set the stop signal active flag
  *----------------------------------------------------------------------------*/
 void set_Stop_Signal(int is_Active) {
 	is_Stop_Signal_Active = is_Active; 
