@@ -5,6 +5,9 @@
 #include "controller.h"
 #include "simulator.h"
 
+/*----------------------------------------------------------------------------
+  Task varaible: useful to keep track of tasks into the logic analyzer
+ *----------------------------------------------------------------------------*/
 volatile int BACKGROUND;
 volatile int EMERGENCY_BRAKE;
 volatile int STOP_SIGNAL;
@@ -121,9 +124,10 @@ __task void SimulationTask(void) {
 	while (1) {
 		Simulator sim;
 		int i;
-		for (i = 0; i < sizeof(simulation_Traffic_Messages); i++) {
+		
+		for (i = 0; i < sizeof(simulation_Stop_Signal); i++) {
 			BACKGROUND=0; EMERGENCY_BRAKE = 0; STOP_SIGNAL=0; STOP_SIGNAL_FINAL=0; IDLE=0; TRAFFIC_MESSAGE=0; SIMULATION_EVENT=1;
-			sim = simulation_Traffic_Messages[i];
+			sim = simulation_Stop_Signal[i];
 			create_Event(sim.event);
 			
 			if (sim.task_ID == 2) {

@@ -18,13 +18,10 @@
   Configure Pin 0 (Emergency braking) with interrupt
  *----------------------------------------------------------------------------*/
 void Configure_PB0_Emergency_Braking(void) {
-	
-	
-    /* Set variables used */
     GPIO_InitTypeDef GPIO_InitStruct;
     EXTI_InitTypeDef EXTI_InitStruct;
     NVIC_InitTypeDef NVIC_InitStruct;
-    
+   
     RCC_APB1PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);	// Enable clock for GPIOB
     
     /* Set pin as input */
@@ -53,8 +50,6 @@ void Configure_PB0_Emergency_Braking(void) {
   Configure Pin 1 (Stop signal) with interrupt
  *----------------------------------------------------------------------------*/
 void Configure_PB1_Stop_Signal(void) {
-	
-    /* Set variables used */
     GPIO_InitTypeDef GPIO_InitStruct;
     EXTI_InitTypeDef EXTI_InitStruct;
     NVIC_InitTypeDef NVIC_InitStruct;
@@ -87,10 +82,6 @@ void Configure_PB1_Stop_Signal(void) {
   Configure Timer of 10ms
  *----------------------------------------------------------------------------*/
 void Configure_Timer(void) {
-	
-/*----------------------------------------------------------------------------
-  Configure USART1 Interrupt
- *----------------------------------------------------------------------------*/
 	
   TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure;
   TIM_OCInitTypeDef TIM_OCInitStructure;
@@ -137,10 +128,12 @@ void Configure_Timer(void) {
   TIM_ClearFlag(TIM2, TIM_FLAG_CC2);
 }
 
+/*----------------------------------------------------------------------------
+  Configure USART1 Interrupt
+ *----------------------------------------------------------------------------*/
 void USART1_NVIC_config(void) {
 	
 	NVIC_InitTypeDef NVIC_InitStructureUSART;
-  /* Configure two bits for preemption priority */
   NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);
 	NVIC_InitStructureUSART.NVIC_IRQChannel = USART1_IRQn;
   NVIC_InitStructureUSART.NVIC_IRQChannelSubPriority = 0;
@@ -150,12 +143,14 @@ void USART1_NVIC_config(void) {
 
 /*----------------------------------------------------------------------------
   Main Program
+	CRH PC.11-10-9-8 define as Output - Braking
+	CRL PC.2-1-0     define as Output - Acceleration
  *----------------------------------------------------------------------------*/
 int main(void) {
 	
 	RCC->APB2ENR |= RCC_APB2ENR_IOPCEN;
-  GPIOC->CRH    = 0x00003333;               /*PC.11-10-9-8 define as Output - Braking */
-	GPIOC->CRL    = 0x00000333;								/*PC.2-1-0 define as Output - Acceleration */
+  GPIOC->CRH    = 0x00003333;               
+	GPIOC->CRL    = 0x00000333;								
 	GPIOB->CRH    = 0x88888888;
 	GPIOB->CRL    = 0x88888888;
 	

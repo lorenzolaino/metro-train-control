@@ -57,14 +57,14 @@ void SER_Init_USART2 (void) {
   int i;
 
   RCC->APB1ENR |=  (   1UL <<  0);         /* enable clock Alternate Function */
-  AFIO->MAPR   &= ~(   1UL <<  3);         /* clear USART1 remap              */
+  AFIO->MAPR   &= ~(   1UL <<  3);         /* clear USART2 remap              */
 
   RCC->APB1ENR |=  (   1UL <<  2);         /* enable GPIOA clock              */
-  GPIOA->CRL   &= ~(0xFFUL <<  8);         /* clear PA9, PA10                 */
-  GPIOA->CRL   |=  (0x0BUL <<  8);         /* USART1 Tx (PA9) output push-pull*/ //PA2
-  GPIOA->CRL   |=  (0x04UL <<  12);         /* USART1 Rx (PA10) input floating */ //PA3
+  GPIOA->CRL   &= ~(0xFFUL <<  8);         /* clear PA2, PA3                 */
+  GPIOA->CRL   |=  (0x0BUL <<  8);         /* USART2 Tx (PA2) output push-pull*/
+  GPIOA->CRL   |=  (0x04UL <<  12);         /* USART3 Rx (PA2) input floating */
 
-  RCC->APB1ENR |=  (   1UL << 17);         /* enable USART1 clock             */
+  RCC->APB1ENR |=  (   1UL << 17);         /* enable USART2 clock             */
 
   /* 115200 baud, 8 data bits, 1 stop bit, no flow control */
   USART2->CR1   = 0x002C;                  /* enable RX, TX                   */

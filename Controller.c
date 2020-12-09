@@ -63,7 +63,7 @@ void check_Lever_Input(void) {
 				set_Current_State(max_Power);
 			}
 			break;
-		case 0: //Possibilità di mettere 0 
+		case 0: 
 			max_No_Input_Time++;
 			if (max_No_Input_Time >= max_No_Input_Timer) {
 				os_evt_set(0x01, stop_Signal_Final_Task_ID);
@@ -111,12 +111,22 @@ int get_Current_State(void) {
 	return current_State;
 }
 
+/*----------------------------------------------------------------------------
+  Handle Emergency brake: handle the emergency brake request, brakes are 
+													activated with maximum power.
+													A manual reset in necessary.
+ *----------------------------------------------------------------------------*/
 void handle_Emergency_Brake(void) {
 	is_Emergency_Brake_Active = 1; 
 	turn_Off_Led(1<<current_State);
-	turn_On_Led(1<<11);
+	turn_On_Led(1<<max_Braking_Force);
 }
 
+/*----------------------------------------------------------------------------
+  Handle Stop signal: handle the stop signal request, brakes are 
+											activated with medium power, and kept on until the 
+											signal is cleared and the lever is on the idle position
+ *----------------------------------------------------------------------------*/
 void handle_Stop_Signal(void) {
 	int input = (current_Event_Pin) ? current_Event_Pin : GPIOB->IDR;
 	
@@ -134,6 +144,11 @@ void handle_Stop_Signal(void) {
 	}
 }
 
+/*----------------------------------------------------------------------------
+  Handle Stop signal: handle the stop signal request with a final state, 
+											brakes are activated with medium power. 
+											A manual reset in necessary.
+ *----------------------------------------------------------------------------*/
 void handle_Stop_Signal_Final(void) {
 	turn_Off_Led(1<<current_State);
 	turn_On_Led(1<<med_Braking_Force);
