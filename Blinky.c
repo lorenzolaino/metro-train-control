@@ -25,7 +25,7 @@ void Configure_PB0_Emergency_Braking(void) {
     RCC_APB1PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);	// Enable clock for GPIOB
     
     /* Set pin as input */
-    GPIO_InitStruct.GPIO_Mode = GPIO_Mode_IPU; // GPIO_Mode_IN;
+    GPIO_InitStruct.GPIO_Mode = GPIO_Mode_IPD; // GPIO_Mode_IN;
     GPIO_InitStruct.GPIO_Pin = GPIO_Pin_0;
     GPIO_InitStruct.GPIO_Speed = GPIO_Speed_10MHz;
     GPIO_Init(GPIOB, &GPIO_InitStruct);
@@ -57,7 +57,7 @@ void Configure_PB1_Stop_Signal(void) {
     RCC_APB1PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);	// Enable clock for GPIOB
     
     /* Set pin as input */
-    GPIO_InitStruct.GPIO_Mode = GPIO_Mode_IPU; // GPIO_Mode_IN;
+    GPIO_InitStruct.GPIO_Mode = GPIO_Mode_IPD; // GPIO_Mode_IN;
     GPIO_InitStruct.GPIO_Pin = GPIO_Pin_1;
     GPIO_InitStruct.GPIO_Speed = GPIO_Speed_10MHz;
     GPIO_Init(GPIOB, &GPIO_InitStruct);
@@ -73,7 +73,7 @@ void Configure_PB1_Stop_Signal(void) {
     /* Add IRQ vector to NVIC */
     NVIC_InitStruct.NVIC_IRQChannel = EXTI1_IRQn;  // PB1 is connected to EXTI_Line1, which has EXTI1_IRQn vector
     NVIC_InitStruct.NVIC_IRQChannelPreemptionPriority = 0x00;	// Set priority
-    NVIC_InitStruct.NVIC_IRQChannelSubPriority = 0x01;		// Set sub priority
+    NVIC_InitStruct.NVIC_IRQChannelSubPriority = 0x02;		// Set sub priority
     NVIC_InitStruct.NVIC_IRQChannelCmd = ENABLE;		// Enable interrupt
     NVIC_Init(&NVIC_InitStruct);				// Add to NVIC
 }
@@ -156,6 +156,9 @@ int main(void) {
 	SER_Init_USART2();
 	USART1_NVIC_config();
 	
+	// Change the parameter in order to activate the test and the simulation
+	// 0: simualtion inactive
+	// 1: simulation active
 	Configure_Simulation(1);
 	
 	initialize_Task();

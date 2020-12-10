@@ -37,6 +37,10 @@ void EXTI0_IRQHandler(void) {  // EXTI0_IRQn
   Interrupt Handler for pin 1: it wakes up the stop signal task
  *----------------------------------------------------------------------------*/
 void EXTI1_IRQHandler(void) {  // EXTI1_IRQn
+	if (is_Emergency_Brake_Active) {
+		return;
+	}
+	
 	EXTI_ClearFlag(EXTI_Line1);
 	isr_evt_set(0x01, stop_Signal_Task_ID);
 }
