@@ -140,7 +140,7 @@
         <SetRegEntry>
           <Number>0</Number>
           <Key>DLGDARM</Key>
-          <Name>(1010=1155,41,1641,714,0)(1007=-1,-1,-1,-1,0)(1008=-1,-1,-1,-1,0)(1009=-1,-1,-1,-1,0)(100=-1,-1,-1,-1,0)(110=-1,-1,-1,-1,0)(111=593,222,871,777,0)(1011=-1,-1,-1,-1,0)(180=-1,-1,-1,-1,0)(120=599,102,1010,519,0)(121=1213,424,1624,841,1)(122=789,423,1200,840,1)(123=-1,-1,-1,-1,0)(140=-1,-1,-1,-1,0)(240=-1,-1,-1,-1,0)(190=-1,-1,-1,-1,0)(200=-1,-1,-1,-1,0)(170=-1,-1,-1,-1,0)(130=248,0,1024,907,0)(131=720,159,1304,900,0)(132=134,147,718,888,0)(133=-1,-1,-1,-1,0)(160=225,430,663,834,0)(161=675,427,1113,831,0)(162=-1,-1,-1,-1,0)(210=-1,-1,-1,-1,0)(211=-1,-1,-1,-1,0)(220=-1,-1,-1,-1,0)(221=-1,-1,-1,-1,0)(230=-1,-1,-1,-1,0)(234=-1,-1,-1,-1,0)(231=-1,-1,-1,-1,0)(232=-1,-1,-1,-1,0)(233=-1,-1,-1,-1,0)(150=-1,-1,-1,-1,0)(151=-1,-1,-1,-1,0)</Name>
+          <Name>(1010=1155,41,1641,714,0)(1007=-1,-1,-1,-1,0)(1008=-1,-1,-1,-1,0)(1009=-1,-1,-1,-1,0)(100=-1,-1,-1,-1,0)(110=-1,-1,-1,-1,0)(111=593,222,871,777,0)(1011=-1,-1,-1,-1,0)(180=-1,-1,-1,-1,0)(120=599,102,1010,519,0)(121=1107,455,1518,872,1)(122=681,458,1092,875,1)(123=-1,-1,-1,-1,0)(140=-1,-1,-1,-1,0)(240=-1,-1,-1,-1,0)(190=-1,-1,-1,-1,0)(200=-1,-1,-1,-1,0)(170=-1,-1,-1,-1,0)(130=248,0,1024,907,0)(131=720,159,1304,900,0)(132=134,147,718,888,0)(133=-1,-1,-1,-1,0)(160=225,430,663,834,0)(161=675,427,1113,831,0)(162=-1,-1,-1,-1,0)(210=-1,-1,-1,-1,0)(211=-1,-1,-1,-1,0)(220=-1,-1,-1,-1,0)(221=-1,-1,-1,-1,0)(230=-1,-1,-1,-1,0)(234=-1,-1,-1,-1,0)(231=-1,-1,-1,-1,0)(232=-1,-1,-1,-1,0)(233=-1,-1,-1,-1,0)(150=-1,-1,-1,-1,0)(151=-1,-1,-1,-1,0)</Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -216,7 +216,7 @@
         <Wi>
           <IntNumber>2</IntNumber>
           <FirstString>`STOP_SIGNAL</FirstString>
-          <SecondString>00000000000000000000E0410000C0FFFFFFDF410100000000000000000000000000000053544F505F5349474E414C0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000003000000555555555555C53F000000000000000000000000000000000000000048060008</SecondString>
+          <SecondString>40000000000000000000E0410000C0FFFFFFDF410100000000000000000000000000000053544F505F5349474E414C0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000003000000555555555555C53F000000000000000000000000000000000000000048060008</SecondString>
         </Wi>
         <Wi>
           <IntNumber>3</IntNumber>
@@ -231,7 +231,7 @@
         <Wi>
           <IntNumber>5</IntNumber>
           <FirstString>`SIMULATION_EVENT</FirstString>
-          <SecondString>40000000000000000000E0410000C0FFFFFFDF410100000000000000000000000000000053494D554C4154494F4E5F4556454E54000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000006000000545555555555C53F000000000000000000000000000000000000000024240008</SecondString>
+          <SecondString>00000000000000000000E0410000C0FFFFFFDF410100000000000000000000000000000053494D554C4154494F4E5F4556454E54000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000006000000545555555555C53F000000000000000000000000000000000000000024240008</SecondString>
         </Wi>
       </LogicAnalyzers>
     </TargetOption>
@@ -424,7 +424,7 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>128</TopLine>
+      <TopLine>121</TopLine>
       <CurrentLine>133</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>startup_stm32f10x_md.s</PathWithFileName>
@@ -518,10 +518,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>2</ColumnNumber>
+      <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>4</TopLine>
-      <CurrentLine>150</CurrentLine>
+      <TopLine>127</TopLine>
+      <CurrentLine>143</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>Blinky.c</PathWithFileName>
       <FilenameWithoutPath>Blinky.c</FilenameWithoutPath>
@@ -632,8 +632,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>116</TopLine>
-      <CurrentLine>140</CurrentLine>
+      <TopLine>26</TopLine>
+      <CurrentLine>33</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\Controller.c</PathWithFileName>
       <FilenameWithoutPath>Controller.c</FilenameWithoutPath>
@@ -664,8 +664,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>132</TopLine>
-      <CurrentLine>139</CurrentLine>
+      <TopLine>125</TopLine>
+      <CurrentLine>138</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\RTX_Config.c</PathWithFileName>
       <FilenameWithoutPath>RTX_Config.c</FilenameWithoutPath>
@@ -678,7 +678,7 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>61</ColumnNumber>
+      <ColumnNumber>56</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
       <TopLine>109</TopLine>
       <CurrentLine>125</CurrentLine>
@@ -696,8 +696,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>1</TopLine>
+      <CurrentLine>1</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\RTX_Tasks.h</PathWithFileName>
       <FilenameWithoutPath>RTX_Tasks.h</FilenameWithoutPath>
@@ -712,7 +712,7 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>57</TopLine>
+      <TopLine>63</TopLine>
       <CurrentLine>83</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\Serial.c</PathWithFileName>

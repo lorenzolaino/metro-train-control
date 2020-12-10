@@ -122,7 +122,7 @@ void initialize_Task(void) {
     variable with one of the Simulation.h declaration 
  *----------------------------------------------------------------------------*/
 __task void SimulationTask(void) {
-	Simulator* current_Simulation = simulation_Traffic_Messages; 
+	Simulator* current_Simulation = simulation_Stop_Signal; 
 	Simulator sim;
 	int size = 10;
 	int i = 0;

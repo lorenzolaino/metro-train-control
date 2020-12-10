@@ -22,14 +22,14 @@ Simulator simulation_Normal[10] = { {no_Acceleration_No_Braking, 1, 100},
  *----------------------------------------------------------------------------*/																	
 Simulator simulation_Stop_Signal[10] = { {no_Acceleration_No_Braking, 1, 100},
 																				 {min_Acceleration, 1, 100},																				 
+																				 {med_Acceleration, 1, 100},
 																				 {stop_Signal, 3, 100},
 																				 {med_Acceleration, 1, 100},
-																				 {no_Input, 3, 100},		
-																				 {min_Acceleration, 1, 100},
-																				 {med_Acceleration, 1, 100},
+																				 {no_Input, 3, 100},																													 
 																				 {no_Acceleration_No_Braking, 1, 100},
 																				 {min_Acceleration, 1, 100},
-																				 {med_Acceleration, 1, 100}
+																				 {med_Acceleration, 1, 100},	
+																				 {max_Acceleration, 1, 100}
 																			 };
 
 /*----------------------------------------------------------------------------
@@ -92,7 +92,7 @@ Simulator simulation_Max_Timer_No_Input[10] = { {no_Acceleration_No_Braking, 1, 
 															 from the serial line USART1. 
  *----------------------------------------------------------------------------*/																						 
 Simulator simulation_Traffic_Messages[10] = { {no_Acceleration_No_Braking, 1, 100},
-																						  {min_Braking, 1, 100},
+																						  {min_Acceleration, 1, 100},
 																						  {'T', 4, 10},
 																						  {'r', 4, 10},
 																							{'a', 4, 10},
@@ -100,6 +100,6 @@ Simulator simulation_Traffic_Messages[10] = { {no_Acceleration_No_Braking, 1, 10
 																						  {'f', 4, 10},
 																						  {'i', 4, 10},
 																						  {'c', 4, 10},
-																						  {str_Braking, 1, 100}																							
+																						  {min_Braking, 1, 100}																							
 																					 };				
 																					 
