@@ -2,4 +2,4 @@
 -I D:\Programs\Keils\ARM\RV31\INC 
 -I D:\Programs\Keils\ARM\CMSIS\Include 
 -I D:\Programs\Keils\ARM\Inc\ST\STM32F10x 
--DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER -o ".\Obj\blinky.o" --omf_browse ".\Obj\blinky.crf" --depend ".\Obj\blinky.d" "Blinky.c"
+-DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER -o ".\Obj\controller.o" --omf_browse ".\Obj\controller.crf" --depend ".\Obj\controller.d" "Controller.c"

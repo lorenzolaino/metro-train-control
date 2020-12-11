@@ -117,6 +117,10 @@ int get_Current_State(void) {
 													A manual reset in necessary.
  *----------------------------------------------------------------------------*/
 void handle_Emergency_Brake(void) {
+	if (is_Stop_Signal_Active) {
+		turn_Off_Led(1<<med_Braking_Force);
+	}
+	
 	is_Emergency_Brake_Active = 1; 
 	turn_Off_Led(1<<current_State);
 	turn_On_Led(1<<max_Braking_Force);

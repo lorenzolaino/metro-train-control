@@ -424,8 +424,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>128</TopLine>
+      <CurrentLine>133</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>startup_stm32f10x_md.s</PathWithFileName>
       <FilenameWithoutPath>startup_stm32f10x_md.s</FilenameWithoutPath>
@@ -480,8 +480,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>26</TopLine>
-      <CurrentLine>39</CurrentLine>
+      <TopLine>24</TopLine>
+      <CurrentLine>40</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\stm32f10x_it.c</PathWithFileName>
       <FilenameWithoutPath>stm32f10x_it.c</FilenameWithoutPath>
@@ -520,7 +520,7 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>1</TopLine>
+      <TopLine>130</TopLine>
       <CurrentLine>143</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>Blinky.c</PathWithFileName>
@@ -630,10 +630,10 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>21</ColumnNumber>
+      <ColumnNumber>39</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>116</TopLine>
-      <CurrentLine>155</CurrentLine>
+      <TopLine>112</TopLine>
+      <CurrentLine>121</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\Controller.c</PathWithFileName>
       <FilenameWithoutPath>Controller.c</FilenameWithoutPath>
@@ -664,8 +664,8 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>0</TopLine>
-      <CurrentLine>0</CurrentLine>
+      <TopLine>131</TopLine>
+      <CurrentLine>137</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\RTX_Config.c</PathWithFileName>
       <FilenameWithoutPath>RTX_Config.c</FilenameWithoutPath>
@@ -678,9 +678,9 @@
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
-      <ColumnNumber>61</ColumnNumber>
+      <ColumnNumber>63</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>1</TopLine>
+      <TopLine>106</TopLine>
       <CurrentLine>126</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\RTX_Tasks.c</PathWithFileName>
@@ -712,7 +712,7 @@
       <Focus>0</Focus>
       <ColumnNumber>0</ColumnNumber>
       <tvExpOptDlg>0</tvExpOptDlg>
-      <TopLine>96</TopLine>
+      <TopLine>82</TopLine>
       <CurrentLine>83</CurrentLine>
       <bDave2>0</bDave2>
       <PathWithFileName>.\Serial.c</PathWithFileName>

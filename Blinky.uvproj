@@ -350,7 +350,7 @@
               <MiscControls>--reduce_paths</MiscControls>
               <Define>STM32F10X_MD USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>..\STM32F10x_StdPeriph_Driver\inc;..\STM32F10x_StdPeriph_Driver\src;D:\Programs\Keils\ARM\INC;.</IncludePath>
+              <IncludePath>..\STM32F10x_StdPeriph_Driver\inc;.</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>

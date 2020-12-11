@@ -159,7 +159,7 @@ int main(void) {
 	// Change the parameter in order to activate the test and the simulation
 	// 0: simualtion inactive
 	// 1: simulation active
-	Configure_Simulation(1);
+	Configure_Simulation(0);
 	
 	initialize_Task();
 	
