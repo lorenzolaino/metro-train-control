@@ -1,4 +1,4 @@
-#Metro Train Controller
+# Metro Train Controller
 
 The scope of this following project is the simulation of a simplified metro train controller.
 In order to work properly the controller must:
