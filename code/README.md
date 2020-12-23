@@ -1,8 +1,7 @@
 # Metro train controller
 
----
 #### How to run the system? 
-There are no mandatory steps to make the system work, the only request is to place the project directory in the directory where the libraries are located.
+There are no mandatory steps to make the system work, the only request is to place the project directory in the directory where the libraries are located (STM32F10x_StdPeriph_Driver, CMSIS).
 
 #### Optional: Activate or Deactivate simulation
 Into the main of the **Blinky.c** file it is possible to activate or deactive the simulation
